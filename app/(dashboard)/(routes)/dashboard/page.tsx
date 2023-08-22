@@ -22,7 +22,7 @@ const tools = [
   {
     label: "Conversation",
     icon: MessageSquare,
-    href: "/conversations",
+    href: "/conversation",
     color: "text-violet-500",
     backgroundColor: "bg-violet-500/10",
   },
