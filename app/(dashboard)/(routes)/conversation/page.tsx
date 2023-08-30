@@ -18,7 +18,7 @@ import { Loader } from "@/components/Loader";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/UserAvatar";
 import { AiAvatar } from "@/components/AiAvatar";
-
+import { useProModalStore } from "@/hooks/use-pro-modal";
 
 interface ChatRequestMessage {
   role: "user";
@@ -28,6 +28,7 @@ interface ChatRequestMessage {
 const ConversationPage = () => {
   const router = useRouter();
   const [messages, setMessages] = useState<ChatRequestMessage[]>([]);
+  const proModal = useProModalStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,7 +54,9 @@ const ConversationPage = () => {
 
       form.reset();
     } catch (error: any) {
-      console.log(error);
+      if (error?.response?.status === 403){
+        proModal.onOpen();
+      }
     } finally {
       router.refresh();
     }
@@ -109,20 +112,18 @@ const ConversationPage = () => {
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
-                <div
-                  key={message.content}
-                  className={cn(
-                    "p-6 w-full flex gap-x-4 items-start rounded-lg",
-                    message.role === "user"
-                      ? "bg-white border border-black/10"
-                      : "bg-muted"
-                  )}
-                >
-                  {message?.role === "user" ? <UserAvatar /> : <AiAvatar />}
-                  <p className="text-sm">
-                  {message.content}
-                  </p>
-                </div>
+              <div
+                key={message.content}
+                className={cn(
+                  "p-6 w-full flex gap-x-4 items-start rounded-lg",
+                  message.role === "user"
+                    ? "bg-white border border-black/10"
+                    : "bg-muted"
+                )}
+              >
+                {message?.role === "user" ? <UserAvatar /> : <AiAvatar />}
+                <p className="text-sm">{message.content}</p>
+              </div>
             ))}
           </div>
         </div>

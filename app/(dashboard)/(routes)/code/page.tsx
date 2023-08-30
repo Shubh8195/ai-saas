@@ -19,6 +19,7 @@ import { Loader } from "@/components/Loader";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/UserAvatar";
 import { AiAvatar } from "@/components/AiAvatar";
+import { useProModalStore } from "@/hooks/use-pro-modal";
 
 interface ChatRequestMessage {
   role: "user";
@@ -28,6 +29,7 @@ interface ChatRequestMessage {
 const CodePage = () => {
   const router = useRouter();
   const [messages, setMessages] = useState<ChatRequestMessage[]>([]);
+  const proModal = useProModalStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,7 +55,9 @@ const CodePage = () => {
 
       form.reset();
     } catch (error: any) {
-      console.log(error);
+      if (error?.response?.status === 403){
+        proModal.onOpen();
+      }
     } finally {
       router.refresh();
     }
