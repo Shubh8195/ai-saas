@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/UserAvatar";
 import { AiAvatar } from "@/components/AiAvatar";
 
+
 interface ChatRequestMessage {
   role: "user";
   content: string | null;
@@ -106,7 +107,7 @@ const ConversationPage = () => {
           {messages.length === 0 && !isLoading && (
             <Empty label="No conversation started" />
           )}
-          <div className="flex flex-col gap-y-4">
+          <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
                 <div
                   key={message.content}
