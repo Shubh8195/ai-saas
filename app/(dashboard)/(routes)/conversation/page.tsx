@@ -6,7 +6,6 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageSquare } from "lucide-react";
-
 import { Heading } from "@/components/Heading";
 import { formSchema } from "./constants";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -19,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/UserAvatar";
 import { AiAvatar } from "@/components/AiAvatar";
 import { useProModalStore } from "@/hooks/use-pro-modal";
+import { toast } from "react-hot-toast";
 
 interface ChatRequestMessage {
   role: "user";
@@ -56,6 +56,8 @@ const ConversationPage = () => {
     } catch (error: any) {
       if (error?.response?.status === 403){
         proModal.onOpen();
+      }else{
+        toast.error("something went wrong")
       }
     } finally {
       router.refresh();

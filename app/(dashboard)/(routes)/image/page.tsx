@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,6 +58,8 @@ const ImagePage = () => {
     } catch (error: any) {
       if (error?.response?.status === 403){
         proModal.onOpen();
+      }else{
+        toast.error("something went wrong")
       }
     } finally {
       router.refresh();
