@@ -19,6 +19,7 @@ import { UserAvatar } from "@/components/UserAvatar";
 import { AiAvatar } from "@/components/AiAvatar";
 import { useProModalStore } from "@/hooks/use-pro-modal";
 import { toast } from "react-hot-toast";
+import OpenAI from "openai";
 
 interface ChatRequestMessage {
   role: "user";
